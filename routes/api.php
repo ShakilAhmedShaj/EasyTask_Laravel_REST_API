@@ -18,6 +18,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('validate_token', function () {
+
+    return ['message' => 'true'];
+
+})->middleware('auth:api');
+
 Route::post('register', 'Api\Auth\AuthController@register');
 Route::post('login', 'Api\Auth\AuthController@login');
 
