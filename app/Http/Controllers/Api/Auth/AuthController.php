@@ -14,7 +14,9 @@ class AuthController extends Controller
     public function register(Request $request)
     {
 
-        $base_url = env(APP_URL);
+        $base_url = config('app.url');
+        //$base_url = env(APP_URL);
+        //$base_url = 'http://127.0.0.1:8000';
 
         $validateData = $request->validate([
             'name' => 'required|max:25',
@@ -37,8 +39,8 @@ class AuthController extends Controller
         if ($user) {
             $profile = new UserProfile();
             $profile->user_id = $user->id;
-            $profile->profile_image = $base_url."storage/profile_image/default_profile.png";
-            $profile->profile_image_path = "storage/profile_image/default_profile.png";
+            $profile->profile_image = $base_url."/storage/profile_image/default_profile.png";
+            $profile->profile_image_path = "/storage/profile_image/default_profile.png";
             $profile->bio = "Stay Safe from Corona !.";
             $profile->save();
         }
