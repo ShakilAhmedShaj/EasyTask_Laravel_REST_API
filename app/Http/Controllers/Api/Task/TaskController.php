@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Task;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class TaskController extends Controller
@@ -13,9 +14,9 @@ class TaskController extends Controller
 
     public function getAllTask(){
 
-        $data = DB::table('tasks')
-            ->orderBy('id','desc')
-            ->get();
+        $user       =   Auth::user();
+
+        $data = DB::table('tasks')->orderBy('id','desc')->where('user_id', $user->id)->get();
 
         return response()->json($data,200);
 
