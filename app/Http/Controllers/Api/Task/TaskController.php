@@ -3,25 +3,34 @@
 namespace App\Http\Controllers\Api\Task;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-
 use App\Task;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
+    public function getAllTask()
+    {
 
-    public function getAllTask(){
+        //      Version 02
 
-        $data = DB::table('tasks')
-            ->orderBy('id','desc')
-            ->get();
+        $user = Auth::user();
 
-        return response()->json($data,200);
+        $data = DB::table('tasks')->orderBy('id', 'desc')->where('user_id', $user->id)->get();
+
+        return response()->json($data, 200);
+
+
+//      Version 01
+        /*
+                $data = DB::table('tasks')
+                    ->orderBy('id','desc')
+                    ->get();
+                return response()->json($data,200);
+        */
 
     }
-
-
 
     public function store(Request $request){
 
@@ -92,4 +101,6 @@ class TaskController extends Controller
 
 
     }
+
+
 }
