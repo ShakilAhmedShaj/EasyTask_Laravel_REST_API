@@ -37,6 +37,7 @@ Route::group(['prefix' => 'task'], function () {
     Route::group(['middleware' => 'auth:api'], function () {
 
         Route::get('get_all_task', 'Api\Task\TaskController@getAllTask');
+        Route::get('get_task_by_id/{id}', 'Api\Task\TaskController@getAllTaskById');
         Route::post('add_task', 'Api\Task\TaskController@store');
         Route::post('update_task', 'Api\Task\TaskController@update');
         Route::post('delete_task', 'Api\Task\TaskController@destroy');
