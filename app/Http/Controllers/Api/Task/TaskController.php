@@ -13,34 +13,21 @@ class TaskController extends Controller
     public function getAllTask()
     {
 
-        //      Version 02
-
-        $user = Auth::user();
-
-        $data = DB::table('tasks')->orderBy('id', 'desc')->where('user_id', $user->id)->get();
-
+        $data = DB::table('tasks')
+            ->orderBy('id', 'desc')
+            ->get();
         return response()->json($data, 200);
 
-
-//      Version 01
-        /*
-                $data = DB::table('tasks')
-                    ->orderBy('id','desc')
-                    ->get();
-                return response()->json($data,200);
-        */
 
     }
 
     public function getAllTaskById($id)
     {
 
-        $user = Auth::user();
 
         $data = DB::table('tasks')
             ->where('id', '>', $id)
             ->orderBy('id', 'asc')
-            ->where('user_id', $user->id)
             ->get();
 
         return response()->json($data, 200);
