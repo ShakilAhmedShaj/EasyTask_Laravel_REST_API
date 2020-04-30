@@ -12,27 +12,47 @@ class TaskController extends Controller
 {
     public function getAllTask()
     {
+        //      Version 02
 
-        $data = DB::table('tasks')
-            ->orderBy('id', 'desc')
-            ->get();
+        $user = Auth::user();
+
+        $data = DB::table('tasks')->orderBy('id', 'desc')->where('user_id', $user->id)->get();
+
         return response()->json($data, 200);
 
+
+//      Version 01
+        /*
+                $data = DB::table('tasks')
+                    ->orderBy('id','desc')
+                    ->get();
+                return response()->json($data,200);
+        */
 
     }
 
     public function getAllTaskById($id)
     {
-
+        $user = Auth::user();
 
         $data = DB::table('tasks')
             ->where('id', '>', $id)
             ->orderBy('id', 'asc')
+            ->where('user_id', $user->id)
             ->get();
 
         return response()->json($data, 200);
 
+        /*
+                $data = DB::table('tasks')
+                    ->where('id', '>', $id)
+                    ->orderBy('id', 'asc')
+                    ->get();
+
+                return response()->json($data, 200);
+        */
     }
+
 
     public function store(Request $request)
     {
@@ -78,6 +98,7 @@ class TaskController extends Controller
 
     }
 
+
     public function destroy(Request $request)
     {
 
@@ -89,9 +110,7 @@ class TaskController extends Controller
 
                 $task->delete();
 
-                return response()->json([
-                    'success' => 'Your task is deleted successfully.'
-                ], 200);
+                return response()->json($task, 200);
             }
 
             return response()->json([
