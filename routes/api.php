@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,45 +13,35 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('validate_token', function () {
+    return ['message' => 'true'];
+})->middleware('auth:api');
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('validate_token', function () {
-
-    return ['message' => 'true'];
-
-})->middleware('auth:api');
-
 Route::post('register', 'Api\Auth\AuthController@register');
 Route::post('login', 'Api\Auth\AuthController@login');
 
-Route::group(['prefix' => 'task'], function () {
-
+Route::group(['prefix' => 'users'], function () {
     Route::group(['middleware' => 'auth:api'], function () {
+
+        Route::get('detail/{id}', 'Api\Profile\UserProfileController@getUserDetail');
+        Route::post('edit/user', 'Api\Profile\UserProfileController@edit');
+
+    });
+});
+
+Route::group(['prefix' => 'task'], function () {
+    Route::group(['middleware' => 'auth:api'], function () {
+
         Route::get('get_all_task', 'Api\Task\TaskController@getAllTask');
+        Route::get('get_task_by_id/{id}', 'Api\Task\TaskController@getAllTaskById');
         Route::post('add_task', 'Api\Task\TaskController@store');
         Route::post('update_task', 'Api\Task\TaskController@update');
         Route::post('delete_task', 'Api\Task\TaskController@destroy');
 
     });
-
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
